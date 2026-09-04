@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b45c9"><link rel="manifest" href="manifest.json">
+<title>GOUABO — Marketplace</title>
+<style>
+:root{--b:#0b45c9;--o:#ff8a00;--bg:#f5f7fb;--t:#172033;--m:#6b7280;--w:#fff;--l:#e5e9f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}button,input,select,textarea{font:inherit}
+header{background:linear-gradient(135deg,#07339d,#1268e8);color:#fff;padding:16px;position:sticky;top:0;z-index:20}.bar{max-width:1100px;margin:auto;display:flex;align-items:center;gap:14px}.brand{font-size:28px;font-weight:900}.brand span{color:#ff9a16}.tag{font-size:11px}.search{display:flex;flex:1;background:#fff;border-radius:12px;overflow:hidden}.search input{border:0;outline:0;padding:12px;flex:1}.search button{border:0;background:var(--o);color:#fff;padding:0 15px;font-weight:800}
+main{max-width:1100px;margin:auto;padding:20px 16px 100px}.hero{background:linear-gradient(110deg,#0738ad,#1266e8);border-radius:22px;color:#fff;padding:30px;display:flex;justify-content:space-between;align-items:center}.hero h1{font-size:38px;margin:0 0 8px}.hero p{max-width:580px}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer}.primary{background:var(--b);color:#fff}.orange{background:var(--o);color:#fff}.white{background:#fff;color:var(--b)}
+h2{margin:28px 0 13px}.cats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.cat{background:#fff;border:1px solid var(--l);border-radius:16px;padding:14px 5px;text-align:center;cursor:pointer}.cat i{font-size:30px;font-style:normal}.cat b{display:block;font-size:12px;margin-top:5px}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#fff;border:1px solid var(--l);border-radius:17px;overflow:hidden;position:relative}.pic{height:155px;background:#eef3fb;display:grid;place-items:center;font-size:70px}.cardbody{padding:12px}.card h3{margin:6px 0;font-size:15px}.muted{font-size:12px;color:var(--m)}.price{color:var(--b);font-size:17px;font-weight:900}.fav{position:absolute;right:8px;top:8px;border:0;background:#fff;border-radius:50%;width:32px;height:32px}.add{width:100%;margin-top:9px}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{padding:18px;border-radius:18px;background:#fff;border:1px solid var(--l)}.panel.green{background:#eff9e8}.panel.orange{background:#fff2df}.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mini div{background:#fff;border-radius:10px;padding:8px;text-align:center;font-size:11px}.mini span{font-size:28px;display:block}.mini strong{display:block;color:var(--o)}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.feature{background:#fff;border:1px solid var(--l);padding:15px;border-radius:15px}.feature b{display:block;margin:5px 0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--l);display:flex;justify-content:center;z-index:30}nav button{border:0;background:transparent;padding:12px 24px;cursor:pointer;color:#555}nav .sell{background:var(--o);color:#fff;border-radius:50%;width:52px;height:52px;margin-top:-20px;font-size:25px}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal.open{display:flex}.box{background:#fff;border-radius:20px;padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto}.field{margin:10px 0}.field label{font-weight:700;display:block;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid var(--l);border-radius:10px}.actions{display:flex;gap:10px;margin-top:15px}.toast{position:fixed;right:15px;bottom:75px;background:#172033;color:#fff;padding:12px 16px;border-radius:10px;display:none;z-index:70}.toast.show{display:block}
+@media(max-width:800px){.cats{grid-template-columns:repeat(3,1fr)}.products{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:30px}.hero>div:last-child{display:none}}
+@media(max-width:520px){.bar{flex-wrap:wrap}.search{flex-basis:100%;order:3}.cats{grid-template-columns:repeat(3,1fr)}.products{grid-template-columns:repeat(2,1fr)}.panels{grid-template-columns:1fr}.features{grid-template-columns:1fr}.mini{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="bar"><div><div class="brand">G<span>OUABO</span></div><div class="tag">Achetez • Vendez • Trouvez</div></div>
+<form class="search" id="search"><input id="q" placeholder="Que recherchez-vous ?"><button>🔎</button></form>
+<button class="btn white" onclick="openModal('profile')">👤</button></div></header>
+<main>
+<section class="hero"><div><h1>Le marché qui vous rapproche !</h1><p>Achetez et vendez des produits, des produits vivriers et de la nourriture.</p><button class="btn white" onclick="document.getElementById('list').scrollIntoView({behavior:'smooth'})">Découvrir</button></div><div style="font-size:90px">🛒📱</div></section>
+
+<h2>Catégories</h2><section class="cats" id="cats"></section>
+<div style="display:flex;justify-content:space-between;align-items:center"><h2 id="title">Produits populaires</h2><button class="btn primary" onclick="openSell()">+ Vendre</button></div>
+<section class="products" id="list"></section>
+
+<section class="panels">
+<div class="panel green"><h2>🌾 Produits vivriers</h2><div class="mini">
+<div><span>🌾</span>Riz local<strong>18 000 F</strong></div><div><span>🥔</span>Igname<strong>1 500 F</strong></div><div><span>🫗</span>Huile rouge<strong>2 000 F</strong></div><div><span>🍅</span>Tomate<strong>500 F</strong></div></div></div>
+<div class="panel orange"><h2>🍛 Nourriture</h2><div class="mini">
+<div><span>🍚</span>Attiéké<strong>2 000 F</strong></div><div><span>🍲</span>Placali<strong>2 000 F</strong></div><div><span>🐟</span>Alloco + poisson<strong>2 500 F</strong></div><div><span>🥘</span>Riz sauce<strong>2 000 F</strong></div></div></div>
+</section>
+<section class="features"><div class="feature">🛍️<b>Vente simple</b>Publiez en quelques clics.</div><div class="feature">🛵<b>Livraison</b>Selon disponibilité.</div><div class="feature">🔐<b>Paiement</b>Mobile Money, carte ou livraison.</div><div class="feature">💬<b>Messages</b>Contactez les vendeurs.</div></section>
+</main>
+<nav><button onclick="window.scrollTo({top:0,behavior:'smooth'})">🏠<br>Accueil</button><button onclick="document.getElementById('cats').scrollIntoView({behavior:'smooth'})">🔎<br>Explorer</button><button class="sell" onclick="openSell()">+</button><button onclick="showCart()">🛒<br>Panier <b id="count"></b></button><button onclick="openModal('profile')">👤<br>Profil</button></nav>
+
+<div class="modal" id="sellModal"><div class="box"><h2>Publier une annonce</h2>
+<div class="field"><label>Nom du produit</label><input id="name" placeholder="Ex. Riz local 25 kg"></div>
+<div class="field"><label>Catégorie</label><select id="cat"><option>Téléphones</option><option>Mode</option><option>Informatique</option><option>Maison</option><option>Auto</option><option>Beauté</option><option>Produits vivriers</option><option>Nourriture</option><option>Électronique</option><option>Meubles</option><option>Sport</option><option>Autres</option></select></div>
+<div class="field"><label>Prix (FCFA)</label><input id="price" type="number" placeholder="25000"></div>
+<div class="field"><label>Ville</label><input id="city" placeholder="Abidjan"></div>
+<div class="field"><label>Description</label><textarea id="desc"></textarea></div>
+<div class="actions"><button class="btn primary" onclick="publish()">Publier</button><button class="btn" onclick="closeModal('sellModal')">Annuler</button></div></div></div>
+
+<div class="modal" id="profile"><div class="box"><h2>👤 Mon compte</h2><p>Connectez votre compte pour gérer vos annonces, commandes et favoris.</p><button class="btn primary" onclick="showToast('Connexion à la base de données à configurer.')">Se connecter</button> <button class="btn" onclick="closeModal('profile')">Fermer</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const cats=[['📱','Téléphones'],['👕','Mode'],['💻','Informatique'],['🏠','Maison'],['🚗','Auto'],['💄','Beauté'],['🌾','Produits vivriers'],['🍛','Nourriture'],['📺','Électronique'],['🛋️','Meubles'],['⚽','Sport'],['▦','Autres']];
+let products=[
+['iPhone 13 128Go','Téléphones',350000,'Cocody, Abidjan','📱','4.7'],
+['Chaussures Nike','Mode',25000,'Yopougon','👟','4.5'],
+['HP Pavilion 15','Informatique',280000,'Marcory','💻','4.6'],
+['Parfum Sauvage','Beauté',30000,'Cocody','🧴','4.8'],
+['Riz local 25 kg','Produits vivriers',18000,'Adjamé','🌾','4.6'],
+['Igname','Produits vivriers',1500,'Yopougon','🥔','4.5'],
+['Attiéké','Nourriture',2000,'Cocody','🍚','4.9'],
+['Alloco + poisson','Nourriture',2500,'Abidjan','🐟','4.8']];
+let cart=JSON.parse(localStorage.getItem('gouaboCart')||'[]');
+function money(n){return n.toLocaleString('fr-FR')+' FCFA'}
+function render(list=products){document.getElementById('list').innerHTML=list.map((p,i)=>`<article class="card"><button class="fav" onclick="this.textContent=this.textContent==='♡'?'♥':'♡'">♡</button><div class="pic">${p[4]}</div><div class="cardbody"><div class="muted">📍 ${p[3]}</div><h3>${p[0]}</h3><div class="price">${money(p[2])}</div><div class="muted">⭐ ${p[5]}</div><button class="btn primary add" onclick="add(${i})">Ajouter au panier</button></div></article>`).join('')}
+function add(i){cart.push(products[i]);localStorage.setItem('gouaboCart',JSON.stringify(cart));updateCount();showToast('Produit ajouté au panier 🛒')}
+function updateCount(){document.getElementById('count').textContent=cart.length?'('+cart.length+')':''}
+function showCart(){showToast(cart.length?`Votre panier contient ${cart.length} article(s).`:'Votre panier est vide.')}
+function filter(cat){let l=cat==='Toutes'?products:products.filter(p=>p[1]===cat);document.getElementById('title').textContent=cat==='Toutes'?'Produits populaires':cat;render(l);document.getElementById('list').scrollIntoView({behavior:'smooth'})}
+function openSell(){document.getElementById('sellModal').classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function openModal(id){document.getElementById(id).classList.add('open')}
+function publish(){let n=name.value.trim(),p=Number(price.value);if(!n||!p){showToast('Nom et prix obligatoires.');return}products.unshift([n,cat.value,p,city.value||'Côte d’Ivoire',cat.value==='Produits vivriers'?'🌾':cat.value==='Nourriture'?'🍛':'🛍️','Nouveau']);render();closeModal('sellModal');showToast('Annonce publiée 🎉');name.value='';price.value='';city.value='';desc.value=''}
+document.getElementById('cats').innerHTML='<div class="cat" onclick="filter(\'Toutes\')"><i>✨</i><b>Tout</b></div>'+cats.map(c=>`<div class="cat" onclick="filter('${c[1]}')"><i>${c[0]}</i><b>${c[1]}</b></div>`).join('');
+document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();let q=document.getElementById('q').value.toLowerCase();let l=products.filter(p=>p.join(' ').toLowerCase().includes(q));document.getElementById('title').textContent=q?'Résultats de recherche':'Produits populaires';render(q?l:products)});
+function showToast(x){let t=document.getElementById('toast');t.textContent=x;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+render();updateCount();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body></html>
